@@ -1,0 +1,15 @@
+@startuml (id=actor-scrum-master)
+
+!ifndef ACTOR_SM
+
+    !define ACTOR_SM
+
+    rectangle "<color:63BA3C>Offers assistance\n<color:63BA3C>in all levels</color>" #EEFFEE {
+      actor SM as "Scrum Master"
+    }
+
+    !include ./../generated.iuml
+
+!endif
+
+@enduml

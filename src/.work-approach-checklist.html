@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Work approach checklist</title>
+  <meta charset="utf-8" />
+    <link rel="stylesheet" href="http://potherca.github.io/CssBase/css/base.css" />
+    <style>
+        body {
+            max-width: 45em;
+        }
+
+        img {
+          margin: 0;
+          display: inline;
+        }
+
+        .responsibility {
+             font-style: italic;
+             font-size: 0.8em;
+             white-space: nowrap;
+        }
+
+        .role {
+            background-color: lightgray;
+            border: 1px solid;
+            border-top-left-radius: 1em;
+            border-bottom-right-radius: 1em;
+            padding: 0.1em 0.65em;
+            color: white;
+            -text-shadow:  0 0 3px black, 0 0 2px black, 0 0 1px black;
+        }
+
+        .role-end-user {
+            background-color: #FFF;
+            color: black;
+        }
+
+        .role-product-owner {
+            background-color: #E5493A;
+            border-color: #E5493A;
+        }
+
+        .role-scrum-master {
+            background-color: #63BA3C;
+            border-color: #63BA3C;
+        }
+
+        .role-stakeholder {
+            background-color: #FF9C23;
+            border-color: #FF9C23;
+        }
+
+        .role-graphic-designer {
+            background-color: #A5FFFF;
+            border-color: #A5FFFF;
+            color: #777;
+          }
+
+        .role-ux {
+          background-color: #FF2BC2;
+          border-color: #FF2BC2;
+        }
+
+        .role-developer {
+          background-color: #4BADE8;
+          border-color: #4BADE8;
+        }
+
+        .role-programmer{
+            background-color: #205081;
+            border-color: #205081;
+        }
+
+        .role-quality-assurance {
+            background-color: #904EE2;
+            border-color: #904EE2;
+        }
+
+        .role-legend .role {
+            margin: 0.35em 0;
+            list-style-type: none;
+            display: inline-block;
+        }
+
+    </style>
+</head>
+
+<body>
+<h1>Work approach checklist</h1>
+
+<p>
+    The following constitutes the checklist that should become the natural way
+    to resolve issues. It is intended to be exhaustive, so as to cover each base.
+</p>
+<p>
+    It should be noted that often not all steps are applicable for successfully
+    resolving a ticket. If so, the respective steps can quickly be checked off
+    as N/A. It should also be noted that the list is not intended to be written
+    out in such detail that it becomes obstructive of the actual implementation
+    process by taking too much time. The list is intended, however, to serve as
+    a guideline for what in due time should become the natural approach to
+    resolve    tickets.
+</p>
+
+<p>
+    The following Team Members are recognized in this process:
+</p>
+
+<ul class="role-legend">
+    <li class="role role-end-user">End User</li>
+    <li class="role role-stakeholder">Stakeholder</li>
+    <li class="role role-product-owner">Product Owner</li>
+    <li class="role role-scrum-master">Scrum Master</li>
+    <li class="role role-quality-assurance">Quality Assurance</li>
+    <li class="role role-developer">Developer
+      <ul>
+        <li class="role role-ux">User eXperience </li>
+        <li class="role role-graphic-designer">Graphic Designer </li>
+        <li class="role role-programmer">Programmer</li>
+      </ul>
+    </li>
+</ul>
+
+<p>
+  For each step a single role/person is respionsible (optionally assisted by
+  Scrum Master or QA)
+</p>
+<hr />
+<ol>
+  <h2 style="color:#FF9C23">
+    <img src="../images/idea.png"> Idea Ticket
+  </h2>
+  <!-- ===================================================================== -->
+  <li>
+    <strong>Is the IDEA clear enough to create an IDEA ticket?</strong>
+    <p>
+      When an <span class="role role-end-user">End User</span> or stakeholder has the idea that something shold be changed
+      or added to the system, it should be clear what problem the idea addresses.
+    </p>
+    <p>
+      The product owner should be able to summarize the goal should in one or
+      two sentences.
+    </p>
+    <p>
+      Any relevant information should be gathered together in an IDEA ticket.The
+      content of the ticket should be clear, without explaning it in person. This
+      can be validated with the Scrum Master. Once the ticket is clear it should
+      be validated by the stake-holder to make sure the ticket represents their
+      reality.
+    </p>
+    <p class="responsibility">Responsibility of:
+      <span class="role role-stakeholder">Stakeholder</span>
+    </p>
+  </li>
+  <!-- ===================================================================== -->
+  <li>
+    <strong>What is the impact of the idea on the business?</strong>
+    <p>
+      The product owner should be able to asses what the idea will cost in terms
+      of investement (time, resources, money) and how the idea will improve the
+      business value of the system.
+    </p>
+    <p>
+      High-level estimates should be provided to indicate what the financial
+      value of the idea is expected to be. What are the implementation costs?
+      How many hours will the idea take to implement? For which year are these
+      changes budgeted? What are these figures based upon?
+    </p>
+    <p>
+      It should also be noted if the idea will impact Key Performance Indicators
+      (KPI). I.e. how will this help the business in achieving their objectives
+      and reaching their targets.
+    </p>
+    <p class="responsibility">Responsibility of:
+      <span class="role role-product-owner">Product Owner</span>
+    </p>
+  </li>
+  <!-- ===================================================================== -->
+  <li>
+    <strong>What is the impact of the idea on the current system?</strong>
+    <p>
+      If the idea is user-facing, how will the user be impacted? Does it pertain
+      to Consumers, Dealers, Employees? Does the UI have to be changed? Will import
+      have an impact on the user experience?
+    </p>
+    <p>
+      If the idea is mostly machine facing, how does it impact the existing stack?
+      Will systems communictaion be influenced? Do API need to change?
+    </p>
+    <p class="responsibility">Responsibility of:
+      <span class="role role-product-owner">Product Owner</span>
+    </p>
+  </li>
+  <!-- ===================================================================== -->
+  <li>
+    <strong>Which dependencies does the idea have?</strong>
+    <ul>
+      <li>Which disciplines are involved?</li>
+      <li>Which part of the business does this touch?</li>
+      <li>Which processes are involved?</li>
+    </ul>
+    <p>
+      Which area's within the business are involved? Are there departements that
+      need to be informed or collaborated with?
+    </p>
+    <p class="responsibility">Responsibility of:
+      <span class="role role-product-owner">Product Owner</span>
+    </p>
+  </li>
+  <hr />
+  <!-- ===================================================================== -->
+  <h2 style="color:#E5493A">
+    <img src="../images/proposal.png"> Proposal Ticket
+  </h2>
+  <li>
+    <strong>Is enough information present to create a PROPOSAL ticket?</strong>
+    <p>
+      Can all relevant fields be filled in, based on the information gather up
+      until now? If not, more clarity is needed.
+    </p>
+    <p>
+      When all of the information has been placed in an issue, it should be
+      checked with the stakeholders to manage their expectations and validate
+      that their idea and the proposal match.
+    </p>
+    <p class="responsibility">Responsibility of:
+      <span class="role role-product-owner">Product Owner</span>
+    </p>
+  </li>
+<!-- ====================================================================== -->
+  <li>
+    <strong>Are all of the specifications clear?</strong>
+    <p>
+      In order to clearly communicate which changes need to be made to the
+      existing applications in order to successfuly implement the proposal,
+      specifications need to be created.
+    </p>
+    <p>
+      There are various tools available to make matters more clear. Depending on
+      the subject, one or more of the following can be used to paint a clear
+      picture:
+    </p>
+    <ul>
+      <li>
+        <img src="../images/adobe-xd.png"> Graphic Design
+        <em class="responsibility">Responsibility of: <span class="role role-graphic-designer">Graphic Designer</span>.</em>
+      </li>
+      <li>
+        <img src="../images/bitbucket.png"> Proof of Concept
+        <em class="responsibility">Responsibility of: <span class="role role-programmer">Programmer</span>.</em>
+      </li>
+      <li>
+        <img src="../images/bitbucket.png"> Prototype
+        <em class="responsibility">Responsibility of: <span class="role role-programmer">Programmer</span>.</em>
+      </li>
+      <li>
+        <img src="https://goo.gl/t857rT"> Research Question
+        <em class="responsibility">Responsibility of: <span class="role role-programmer">Programmer</span>.</em>
+      </li>
+      <li>
+        <img src="../images/image.png"> Application/High-level Sequence Diagram
+        <em class="responsibility">Responsibility of: <span class="role role-product-owner">Product Owner</span>.</em>
+      </li>
+      <li>
+        <img src="../images/image.png"> Service/System/Low-Level Sequence Diagram
+        <em class="responsibility">Responsibility of: <span class="role role-programmer">Programmer</span>.</em>
+      </li>
+      <li>
+        <img src="../images/image.png">UI-Flow Chart
+        <em class="responsibility">Responsibility of: <span class="role role-ux">User eXperience</span>.</em>
+      </li>
+      <li>
+        <img src="../images/adobe-xd.png"> Wireframe
+        <em class="responsibility">Responsibility of: <span class="role role-ux">User eXperience</span>.</em>
+    </ul>
+    <p>
+      Instead of creating these deliverables themselves, a product owner can
+      delegate tasks to the development team.
+    </p>
+    <p>
+      Eventually Acceptance Criteria should be apparent. This includes both
+      Success Scenario's for when the process flow goes as planned as well as
+      Failure Scenario's for when reality deviates from the desired flow.
+    </p>
+    <p class="responsibility">Responsibility of:
+      <span class="role role-product-owner">Product Owner</span>
+    </p>
+  </li>
+  <hr />
+<!-- ====================================================================== -->
+  <h2 style="color:#904EE2">
+    <img src="../images/epic.png"> Epic Ticket
+  </h2>
+  <li>
+    <strong>Is enough information present to create a PROJECT ticket?</strong>
+    <p>
+      Once all of the specifications are clear and can be understood by the team,
+      the relevant information should be added to a project ticket so work on
+      the issue can start.
+    </p>
+    <p>
+      If specifications are unclear or incomplete, more work is needed to retrieve
+      information and add it to the issue in an understandable fashion.
+    </p>
+    <p class="responsibility">Responsibility of:
+      + <span class="role role-product-owner">Product Owner</span>
+    </p>
+  </li>
+<!-- ====================================================================== -->
+  <li>
+    <strong>Have all low-level dependencies been met?</strong>
+    <p>
+      Do the functional specifications cover the complete scope of what needs to
+      be done?
+    </p>
+    <ul>
+      <li>Are a (user)story and acceptance criteria present?</li>
+      <li>Are all needed graphical designs present?</li>
+      <li>Are all needed implementation examples (proof-of-concept/prototype) present?</li>
+      <li>Are all needed high-level sequence diagrams present?</li>
+      <li>Are all needed low-level sequence diagrams present?</li>
+      <li>Are all needed translations present?</li>
+      <li>Are all needed UI-flow-charts present?</li>
+      <li>Are all needed wireframes present?</li>
+      <li>Have all relevant research questions been answered?</li>
+    </ul>
+    <p>
+      If not, what is missing? Who is responsible for the deliverable?
+    </p>
+
+    <p class="responsibility">Responsibility of:
+      <span class="role role-product-owner">Product Owner</span>
+    </p>
+  </li>
+  <hr />
+<!-- ====================================================================== -->
+  <h2 style="color:#63BA3C">
+    <img src="../images/story.png"> Story Ticket
+  </h2>
+  <li>
+    <strong>Is enough information present to create a high-level DEV ticket?</strong>
+    <p>
+      Once all relevant deliverables have been added to story ticket, work on
+      the issue can be planned.
+    </p>
+    <p class="responsibility">Responsibility of:
+      <span class="role role-product-owner">Product Owner</span>
+    </p>
+  </li>
+  <hr />
+  <!-- ====================================================================== -->
+  <h2 style="color:#4BADE8">
+    <img src="../images/task.png"> Task Ticket
+  </h2>
+  <li>
+    <strong>Is enough information present to create a low-level DEV ticket?</strong>
+    <p>
+        Once it is clear <em>what</em> needs to be built, the developers need to decide
+        <em>how</em> it will be built.
+    </p>
+    <p>
+      This is basically a complete implementation plan for the actual program code.
+    </p>
+    <ol>
+      <li>
+        <strong>What needs to be edited in the code to implement the ticket?</strong> <br>
+        Which classes or component need to be touched? Which services need to
+        talk to each other?
+      </li>
+      <li>
+        <strong>Are any DB migrations required?</strong> <br>
+        To which database? How do these changes need to be brought to the
+        production environment?
+      </li>
+      <li>
+        <strong>Which steps are needed to implement this ticket?</strong> <br>
+        Break it down into small chunks. Create sub-tickets if that helps to
+        make matter more clear.
+      </li>
+    </ol>
+    <p class="responsibility">Responsibility of:
+      + <span class="role role-developer">Developer</span>
+    </p>
+  </li>
+  <h2 style="color:#4BADE8">
+    <img src="../images/subtask.png"> Sub-Task Ticket
+  </h2>
+  <sup>
+    (See Task Ticket)
+  </sup>
+  <p class="responsibility">Responsibility of:
+    + <span class="role role-developer">Developer</span>
+  </p>
+
+  <template>
+  <li>
+    <strong>The checklist question goes here?</strong>
+    <p>
+        A description about this step, extra questions, etc.
+    </p>
+    <p class="responsibility">Responsibility of:
+      <span class="role role-scrum-master">Scrum Master</span>
+      + <span class="role role-quality-assurance">Quality Assurance</span>
+      + <span class="role role-ux">User eXperience</span>
+      + <span class="role role-graphic-designer">Graphic Designer</span>
+      + <span class="role role-programmer">Programmer</span>
+    </p>
+  </li>
+  <template>
+</ol>
+
+</body>
+</html>
