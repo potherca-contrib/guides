@@ -63,6 +63,12 @@ Gruber
 subqueries
 subquery
 
+- ./code-styling/php/README.md
+PSR-1
+PSR-2
+PSR-4
+PSR-5
+
 - ./protocols/development-process/README.md
 Evo
 
