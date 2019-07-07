@@ -1,0 +1,145 @@
+/'
+ ' For tools that can edit PlantUml see: http://plantuml.com/running
+ '
+ ' For the common syntax reference see: http://plantuml.com/commons
+ ' For text formatting syntax see: http://plantuml.com/creole
+ ' For using icons see: http://plantuml.com/openiconic
+ ' For styling and colouring see: http://plantuml.com/skinparam
+ ' For more advanced features see http://plantuml.com/preprocessing
+ '
+ ' For the deployment diagram syntax reference see: http://plantuml.com/deployment-diagram
+ '----------------------------------------------------------------------------'/
+/'----------------------------------------------------------------------------
+ ' A word on Deployment Diagrams:
+ '
+ ' ARTIFACT          : An artifact is a product of the software development process.
+ ' ASSOCIATION       : An association represents a communication path between nodes.
+ ' NODE              : A Node is either a hardware or software element. It is shown
+ '                     as a three-dimensional box shape
+ ' NODE AS CONTAINER : A node can contain other elements, such as components or artifacts.
+ ' NODE INSTANCES    : An instance can be distinguished from a node by the fact that
+ '                     its name is underlined and has a colon before its base node type.
+ '                     An instance may or may not have a name before the colon.
+ ' NODE STEREOTYPES  : Should display an appropriate icon in the top right corner of the node symbol
+ '----------------------------------------------------------------------------'/
+
+@startuml (id=deployment)
+
+!includeurl https://dealerdirect.github.io/templates/plant-uml/skinparams.iuml
+
+/' Keep the line below commented out as long as the diagram is a draft '/
+'skinparam handwritten true
+
+'skinparam linetype polyline
+'skinparam linetype ortho
+
+!define TITLE Development Process\n//Deployment//
+!define IMAGE_DIR ./../../../images
+!define VERSION v0.1.0
+!define ICON_URL https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v1.0.0
+!define __DEPRECATED__ #pink
+!define __REPLACEMENT__ #palegreen
+
+!includeurl ICON_URL/common.puml
+
+!includeurl ICON_URL/font-awesome/desktop.puml
+!includeurl ICON_URL/font-awesome/file_code_o.puml
+!includeurl ICON_URL/font-awesome/gears.puml
+!includeurl ICON_URL/font-awesome/gitlab.puml
+!includeurl ICON_URL/font-awesome/server.puml
+!includeurl ICON_URL/font-awesome/tag.puml
+!includeurl ICON_URL/font-awesome/tags.puml
+
+!includeurl ICON_URL/devicons/bitbucket.puml
+!includeurl ICON_URL/devicons/git.puml
+!includeurl ICON_URL/devicons/git_merge.puml
+!includeurl ICON_URL/devicons/git_pull_request.puml
+!includeurl ICON_URL/devicons/github_badge.puml
+!includeurl ICON_URL/devicons/github_full.puml
+!includeurl ICON_URL/devicons/jenkins.puml
+!includeurl ICON_URL/devicons/travis.puml
+
+title TITLE
+
+/'
+code -> PR -> deploy to test -> [test] -> merge to master  -> deploy to [accept] -> UAT & go/no-go -> deploy to [production]
+        ↓             ↓                                           ↓                                      ↓
+       build    git tag 'test'                             git tag '-RCX'                           git tag '-RCX'
+        ↓
+    system/unit test
+'/
+/'=========================================================================='/
+ ' ACTORS
+/'--------------------------------------------------------------------------'/
+actor developer
+actor reviewer
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+ ' NODES - Either a hardware or software element.
+/'--------------------------------------------------------------------------'/
+FA_DESKTOP(dev, "Local\nDevelopment\nMachine", node) #white {
+    FA_TAG(version_tag, "Version Tag", artifact)
+
+    FA_FILE_CODE_O(code, "Software", artifact)
+    DEV_GIT(repo, "Repository", node)
+}
+
+rectangle "Live Server" as live_server #white {
+    DEV_GITHUB_FULL(gh_pages, "Github Pages", node)
+}
+
+rectangle "Version\nControl\nRepository" as remote #white {
+
+    FA_TAGS(release, "Release", artifact)
+    DEV_GIT_PULL_REQUEST(PR, "pull request", artifact)
+    DEV_GIT_MERGE(merge, "git merge commit", artifact)
+
+    DEV_GITHUB_BADGE(github, "Version\nControl\nRepository",node)
+
+    release --> github
+    PR --> github
+    merge --> github
+}
+
+rectangle "CI / CD" as CI #white {
+    DEV_TRAVIS(travis, "Build Server",node, #C72327)
+}
+
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+ ' ARTIFACTS - A product of the software development process.
+/'--------------------------------------------------------------------------'/
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+ ' ASSOCIATION - Represents a communication path between nodes.
+/'--------------------------------------------------------------------------'/
+code --> repo
+version_tag --> repo
+repo --> remote : push
+remote --> CI
+remote --> live_server
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+ ' CONNECTIONS - Represents a communication path between actors and nodes.
+/'--------------------------------------------------------------------------'/
+reviewer --> PR
+developer --> code
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+' NOTES
+/'--------------------------------------------------------------------------'/
+/'=========================================================================='/
+
+!include ./../generated.iuml
+
+@enduml

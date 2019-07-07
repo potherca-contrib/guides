@@ -1,0 +1,14 @@
+@startuml (id=actor-quality-assistance)
+
+!ifndef ACTOR_QA
+
+    !define ACTOR_QA
+
+    rectangle "<color:904EE2>Offers risk \n<color:904EE2>assessment\n<color:904EE2>in all levels</color>" #F9DFF9 {
+      actor QA as "Quality Assurance"
+    }
+
+    !include ./../generated.iuml
+!endif
+
+@enduml

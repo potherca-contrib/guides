@@ -1,0 +1,201 @@
+/'
+ ' For tools that can edit PlantUml see: http://plantuml.com/running
+ '
+ ' For the common syntax reference see: http://plantuml.com/commons
+ ' For text formatting syntax see: http://plantuml.com/creole
+ ' For using icons see: http://plantuml.com/openiconic
+ ' For styling and colouring see: http://plantuml.com/skinparam
+ ' For more advanced features see http://plantuml.com/preprocessing
+ '
+ ' For the deployment diagram syntax reference see: http://plantuml.com/deployment-diagram
+ '----------------------------------------------------------------------------'/
+/'----------------------------------------------------------------------------
+ ' A word on Deployment Diagrams:
+ '
+ ' ARTIFACT          : An artifact is a product of the software development process.
+ ' ASSOCIATION       : An association represents a communication path between nodes.
+ ' NODE              : A Node is either a hardware or software element. It is shown
+ '                     as a three-dimensional box shape
+ ' NODE AS CONTAINER : A node can contain other elements, such as components or artifacts.
+ ' NODE INSTANCES    : An instance can be distinguished from a node by the fact that
+ '                     its name is underlined and has a colon before its base node type.
+ '                     An instance may or may not have a name before the colon.
+ ' NODE STEREOTYPES  : A number of standard stereotypes are provided for nodes, namely «cdrom», «cd-rom», «computer», «disk array», «pc», «pc client», «pc server», «secure», «server», «storage», «unix server», «user pc». These should display an appropriate icon in the top right corner of the node symbol
+ '----------------------------------------------------------------------------'/
+
+@startuml (id=deployment)
+
+!includeurl https://dealerdirect.github.io/templates/plant-uml/skinparams.iuml
+
+/' Keep the line below commented out as long as the diagram is a draft '/
+'skinparam handwritten true
+
+'skinparam linetype polyline
+'skinparam linetype ortho
+
+!define TITLE Development Process\n//Deployment//
+!define IMAGE_DIR ./../../../images
+!define VERSION v0.1.0
+!define ICON_URL https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v1.0.0
+!define __DEPRECATED__ #pink
+!define __REPLACEMENT__ #palegreen
+
+!includeurl ICON_URL/common.puml
+
+!includeurl ICON_URL/font-awesome/desktop.puml
+!includeurl ICON_URL/font-awesome/gears.puml
+!includeurl ICON_URL/font-awesome/gitlab.puml
+!includeurl ICON_URL/font-awesome/server.puml
+!includeurl ICON_URL/font-awesome/file_code_o.puml
+!includeurl ICON_URL/font-awesome/play_circle_o.puml
+!includeurl ICON_URL/font-awesome/tag.puml
+!includeurl ICON_URL/font-awesome/file_code_o.puml
+
+!includeurl ICON_URL/devicons/bitbucket.puml
+!includeurl ICON_URL/devicons/git.puml
+!includeurl ICON_URL/devicons/github_badge.puml
+!includeurl ICON_URL/devicons/jenkins.puml
+!includeurl ICON_URL/devicons/travis.puml
+!includeurl ICON_URL/devicons/git_pull_request.puml
+!includeurl ICON_URL/devicons/git_merge.puml
+!includeurl ICON_URL/devicons/docker.puml
+
+title TITLE
+
+/'
+code -> PR -> deploy to test -> [test] -> merge to master  -> deploy to [accept] -> UAT & go/no-go -> deploy to [production]
+        ↓             ↓                                           ↓                                      ↓
+       build    git tag 'test'                             git tag '-RCX'                           git tag '-RCX'
+        ↓
+    system/unit test
+'/
+/'=========================================================================='/
+ ' ACTORS
+/'--------------------------------------------------------------------------'/
+actor developer
+actor reviewer
+actor tester
+actor "product owner"
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+ ' NODES - Either a hardware or software element.
+/'--------------------------------------------------------------------------'/
+FA_DESKTOP(dev, "Local\nDevelopment\nMachine", node) #white {
+    rectangle "Git Tags" as tags #white {
+        FA_TAG(accept_tag, "RC Tag", artifact)
+        FA_TAG(test_tag, "Test Tag", artifact) #pink
+        FA_TAG(prod_tag, "Prod Tag", artifact)
+    }
+
+    FA_FILE_CODE_O(code, "Software", artifact)
+    DEV_GIT(repo, "Repository", node) {
+        FA_GEARS(build_script, "Build Script", agent)
+        FA_GEARS(test_script, "Test Script", agent)
+        FA_FILE_CODE_O(deploy_script, "Deploy Script", agent) __DEPRECATED__
+        FA_FILE_CODE_O(robo, "Robo",node, #FC6D26) __REPLACEMENT__
+    }
+}
+
+rectangle "Test Server" as test_server #white {
+    FA_SERVER(libvirt, "Internal Server", node) __DEPRECATED__ {
+        FA_SERVER(test_old, Test, node)
+    }
+
+    FA_SERVER(proxmox, "Internal Server", node)  __REPLACEMENT__ {
+        FA_SERVER(test, Test, node)
+    }
+}
+
+
+rectangle "Live Server" as live_server #white {
+    FA_SERVER(oxillion, Oxillion, node) __DEPRECATED__ {
+        FA_SERVER(prod_old, Production, node)
+        FA_SERVER(accept_old, Accept, node)
+    }
+
+
+    FA_SERVER(fundaments, "IaaS Provider", node)  __REPLACEMENT__ {
+        FA_SERVER(prod, Production, node)
+        FA_SERVER(accept, Accept, node)
+    }
+}
+
+rectangle "Version\nControl\nRepository" as remote #white {
+
+    DEV_GIT_PULL_REQUEST(PR, "pull / merge\nrequest", artifact)
+    DEV_GIT_MERGE(merge, "git merge commit", artifact)
+
+    FA_PLAY_CIRCLE_O(deploy_button, "Deploy\nTo Test", agent)
+
+    FA_GITLAB(gitlab, "Version\nControl\nRepository",node, #FC6D26) __REPLACEMENT__
+    DEV_BITBUCKET(bitbucket, "Version\nControl\nRepository",node, #205081) __DEPRECATED__
+}
+
+rectangle "CI / CD" as CI #white {
+
+
+    DEV_JENKINS(jenkins, "Build Server", node) __DEPRECATED__
+    FA_GITLAB(gitlabci, "Build Server",node, #FC6D26) __REPLACEMENT__
+
+    DEV_DOCKER(build_container, "Build Container", node) {
+    }
+
+    DEV_DOCKER(ci_box, "Continuous\nIntegration\nContainer", node) {
+    }
+
+    DEV_DOCKER(cd_box, "Continuous\nDeployment\nContainer", node) {
+    }
+}
+
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+ ' ARTIFACTS - A product of the software development process.
+/'--------------------------------------------------------------------------'/
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+ ' ASSOCIATION - Represents a communication path between nodes.
+/'--------------------------------------------------------------------------'/
+'code --> repo
+'tags --> repo
+'repo --> remote : push
+'remote --> CI
+'deploy_script --> live_server
+'deploy_script --> test_server
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+ ' CONNECTIONS - Represents a communication path between actors and nodes.
+/'--------------------------------------------------------------------------'/
+/'=========================================================================='/
+
+
+/'=========================================================================='/
+' NOTES
+/'--------------------------------------------------------------------------'/
+/'=========================================================================='/
+
+!include ./../generated.iuml
+
+'    artifact artifact
+'    actor actor
+'    folder folder
+'    node node
+'    frame frame
+'    cloud cloud
+'    database database
+'    storage storage
+'    agent agent
+'    usecase usecase
+'    component component
+'    boundary boundary
+'    control control
+'    entity entity
+'    interface interface
+@enduml
